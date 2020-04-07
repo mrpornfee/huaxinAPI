@@ -10,18 +10,18 @@
 // +----------------------------------------------------------------------
 
 return [
-    // 数据库类型
+  'massmakers'=>[ // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => '127.0.0.1',
+    'hostname'        => '106.14.225.30',
     // 数据库名
-    'database'        => '',
+    'database'        => 'massmakers',
     // 用户名
     'username'        => 'root',
     // 密码
-    'password'        => '',
+    'password'        => 'Aa654321',
     // 端口
-    'hostport'        => '',
+    'hostport'        => '3306',
     // 连接dsn
     'dsn'             => '',
     // 数据库连接参数
@@ -29,9 +29,9 @@ return [
     // 数据库编码默认采用utf8
     'charset'         => 'utf8',
     // 数据库表前缀
-    'prefix'          => '',
+    'prefix'          => 'wst_',
     // 数据库调试模式
-    'debug'           => true,
+    'debug'           => false,
     // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
     'deploy'          => 0,
     // 数据库读写是否分离 主从式有效
@@ -60,4 +60,23 @@ return [
     'break_reconnect' => false,
     // 断线标识字符串
     'break_match_str' => [],
+       ],
+    'huachuangzhaopin'=>[
+        // 数据库类型
+        'type'        => 'mysql',
+        // 服务器地址
+        'hostname'    => '106.14.225.30',
+        // 数据库名
+        'database'    => 'huachuangzhaopin',
+        // 数据库用户名
+        'username'    => 'sulifer',
+        // 数据库密码
+        'password'    => '123456',
+        // 数据库编码默认采用utf8
+        'charset'     => 'utf8',
+        // 数据库表前缀
+        'prefix'      => 'phpyun_',
+        'timezone'=>'PRC',
+        'coding'=>'ba6b4c94ea65cb0fce50ec85809366a5', //生成cookie加密
+    ]
 ];
