@@ -64,14 +64,14 @@ return [
     'huachuangzhaopin'=>[
         // 数据库类型
         'type'        => 'mysql',
-        // 服务器地址
-        'hostname'    => '106.14.225.30',
+        // 服务器地址106.14.225.30
+        'hostname'    => '127.0.0.1',
         // 数据库名
         'database'    => 'huachuangzhaopin',
-        // 数据库用户名
-        'username'    => 'sulifer',
-        // 数据库密码
-        'password'    => '123456',
+        // 数据库用户名sulifer
+        'username'    => 'root',
+        // 数据库密码123456
+        'password'    => 'root',
         // 数据库编码默认采用utf8
         'charset'     => 'utf8',
         // 数据库表前缀
