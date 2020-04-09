@@ -10,3 +10,10 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
+function myJson($code,$msg=null,$data=null){
+    return json_encode([
+        'code'=>$code,
+        'msg'=>$msg,
+        'data'=>$data,
+        ]);
+}

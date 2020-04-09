@@ -6,3 +6,4 @@
  * Time: 16:47
  */
 Route::get('zhaopin/api','api/zhaopin.index/test');
+Route::get('api/get_token','api/apply_token/makeToken');
