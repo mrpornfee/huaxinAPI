@@ -1,0 +1,2 @@
+<?php
+return 'x9A6Cx9E4Fx98DEx4E2Ax5927x5E05x6BD4';

@@ -8,11 +8,32 @@
 
 namespace app\api\controller;
 
+use app\api\model\SecretKey;
 use app\api\model\Token;
 use think\Controller;
 
+
 class ApplyToken extends Controller
 {
+       public function makeSecretKey(){
+           $n=input('number');
+           $k=input('key');
+           if($k!=require dirname(dirname(dirname(__DIR__))).'/public/superman.php')return myJson('4','缺少诚意。');
+           if($n<=200&&$n>=1) {
+               $res=SecretKey::createKeys($n);
+               return $res;
+           }
+           else{
+               return myJson('3','最多一次创建200条');
+           }
+
+       }
+
+         public function getSecretKey(){
+
+
+         }
+
         public function makeToken(){
             $data=[
                 'mobile'=>input('mobile'),

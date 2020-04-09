@@ -10,26 +10,44 @@
 // +----------------------------------------------------------------------
 
 return [
-  'massmakers'=>[ // 数据库类型
-    'type'            => 'mysql',
-    // 服务器地址
-    'hostname'        => '106.14.225.30',
+    // 数据库类型
+    'type'        => 'mysql',
+    // 服务器地址106.14.225.30
+    'hostname'    => '127.0.0.1',
     // 数据库名
-    'database'        => 'massmakers',
-    // 用户名
-    'username'        => 'root',
-    // 密码
-    'password'        => 'Aa654321',
+    'database'    => 'huachuangzhaopin',
+    // 数据库用户名sulifer
+    'username'    => 'root',
+    // 数据库密码123456
+    'password'    => 'root',
+
+    // 数据库编码默认采用utf8
+    'charset'     => 'utf8',
+    // 数据库表前缀
+    'prefix'      => 'phpyun_',
     // 端口
     'hostport'        => '3306',
-    // 连接dsn
-    'dsn'             => '',
     // 数据库连接参数
     'params'          => [],
-    // 数据库编码默认采用utf8
-    'charset'         => 'utf8',
-    // 数据库表前缀
-    'prefix'          => 'wst_',
+    'massmakers'=>[
+        // 数据库类型
+        'type'            => 'mysql',
+        // 服务器地址
+        'hostname'        => '106.14.225.30',
+        // 数据库名
+        'database'        => 'massmakers',
+        // 用户名
+        'username'        => 'root',
+        // 密码
+        'password'        => 'Aa654321',
+        // 端口
+        'hostport'        => '3306',
+
+        // 数据库编码默认采用utf8
+        'charset'         => 'utf8',
+        // 数据库表前缀
+        'prefix'          => 'wst_',
+    ],
     // 数据库调试模式
     'debug'           => false,
     // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
@@ -56,27 +74,6 @@ return [
     'builder'         => '',
     // Query类
     'query'           => '\\think\\db\\Query',
-    // 是否需要断线重连
-    'break_reconnect' => false,
-    // 断线标识字符串
-    'break_match_str' => [],
-       ],
-    'huachuangzhaopin'=>[
-        // 数据库类型
-        'type'        => 'mysql',
-        // 服务器地址106.14.225.30
-        'hostname'    => '127.0.0.1',
-        // 数据库名
-        'database'    => 'huachuangzhaopin',
-        // 数据库用户名sulifer
-        'username'    => 'root',
-        // 数据库密码123456
-        'password'    => 'root',
-        // 数据库编码默认采用utf8
-        'charset'     => 'utf8',
-        // 数据库表前缀
-        'prefix'      => 'phpyun_',
-        'timezone'=>'PRC',
-        'coding'=>'ba6b4c94ea65cb0fce50ec85809366a5', //生成cookie加密
-    ]
+
+
 ];

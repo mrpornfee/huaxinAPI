@@ -14,7 +14,7 @@ use think\Validate;
 class Token extends Validate
 {
     protected $rule=[
-        'mobile'=>'require|mobile|unique:',
+        'mobile'=>'require|mobile|unique:huaxinapi',
         'type'=>'require|in:0,1,2,3,4,5',
         'create_time'=>'require',
         ];
