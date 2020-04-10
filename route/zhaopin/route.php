@@ -8,4 +8,6 @@
 
 Route::get('zhaopin/api','api/zhaopin.index/test');
 Route::post('api/make_token','api/apply_token/makeToken');
-Route::get('api/make_secret_key/:number/:key','api/apply_token/makeSecretKey');
+Route::post('api/get_token','api/apply_token/getToken');
+Route::post('api/make_secret_key','api/apply_token/makeSecretKey');
+Route::post('api/get_secret_key','api/apply_token/getSecretKey');

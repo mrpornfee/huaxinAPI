@@ -17,3 +17,18 @@ function myJson($code,$msg=null,$data=null){
         'data'=>$data,
         ]);
 }
+
+/**
+ * 获取 post 参数; 在 content_type 为 application/json 时，自动解析 json
+ * @return array
+ */
+ function initPostData()
+{
+    if (empty($_POST) && false !== strpos($_SERVER['CONTENT_TYPE'], 'application/json')) {
+        $content = file_get_contents('php://input');
+        $post    = (array)json_decode($content, true);
+    } else {
+        $post = $_POST;
+    }
+    return $post;
+}

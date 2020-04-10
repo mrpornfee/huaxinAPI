@@ -15,19 +15,16 @@ class Token extends Validate
 {
     protected $rule=[
         'mobile'=>'require|mobile|unique:huaxinapi',
-        'type'=>'require|in:0,1,2,3,4,5',
         'create_time'=>'require',
         ];
 
     protected $msg = [
         'mobile.require' => '手机号必须',
         'mobile.mobile'=>'手机号格式错误',
-        'type.require' => 'type必须',
-        'type.in'=>'type格式错误',
         'create_time.require' => 'create_time必须',
     ];
 
     protected $scene=[
-      'add'=>['mobile','type','create_time'] ,
+      'add'=>['mobile','create_time'] ,
     ];
 }
