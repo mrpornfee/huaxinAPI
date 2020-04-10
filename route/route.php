@@ -10,13 +10,10 @@
 // +----------------------------------------------------------------------
 require_once __DIR__.'/zhaopin/route.php';
 
-Route::get('think', function () {
-    return 'hello,ThinkPHP5!';
-});
-
-Route::get('hello/:name', 'index/hello');
-
-
+Route::post('api/make_token','api/apply_token/makeToken');
+Route::post('api/get_token','api/apply_token/getToken');
+Route::post('api/make_secret_key','api/apply_token/makeSecretKey');
+Route::post('api/get_secret_key','api/apply_token/getSecretKey');
 
 return [
 

@@ -15,6 +15,13 @@ class Token extends Model
     protected  $name='huaxinapi';
     protected  $pk='id';
 
+    /**设置Token
+     * @param $data
+     * @return string
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public static function setToken($data){
         $validate = new \app\api\validate\Token();
         if(!$validate->scene('add')->check($data)){
@@ -34,6 +41,13 @@ class Token extends Model
         return myJson('1','Your token is successfully applied.', $data);
     }
 
+    /**获取Token
+     * @param $data
+     * @return string
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public static function findToken($data){
         if(!$data['mobile'])
             return myJson('2','No mobile input');
@@ -46,5 +60,12 @@ class Token extends Model
             return myJson('5','That is not your secret key');
         return myJson('1','Successfully get your token',$info);
 
+    }
+
+
+    public static function requestVerify( $token,$mobile,$type){
+        $res=self::where(['mobile'=>$mobile,'token'=>$token,'type'=>$type])->find();
+        if($res) return true;
+        else return false;
     }
 }

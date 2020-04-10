@@ -42,6 +42,7 @@ class SecretKey extends Model
             else return myJson('2','创建失败');
     }
 
+
     public static function takeKey($t){
         $res=self::where(['type'=>$t,'is_used'=>0])->field('id,secret_key')->find();
         if($res) {
