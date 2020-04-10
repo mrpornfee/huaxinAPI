@@ -6,7 +6,6 @@
  * Time: 16:47
  */
 
-Route::get('zhaopin/api','api/zhaopin.index/test');
 Route::post('api/make_token','api/apply_token/makeToken');
 Route::post('api/get_token','api/apply_token/getToken');
 Route::post('api/make_secret_key','api/apply_token/makeSecretKey');
