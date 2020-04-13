@@ -18,7 +18,7 @@ class Member extends Model
 
     public static function getUid($mobile){
         $res=self::where('moblie',$mobile)->find()['uid'];
-        if($res) return $res;
+        if($res) return ['uid'=>$res];
         else return myJson('101','No access to publish job because you are not in member of user list.');
     }
 }
