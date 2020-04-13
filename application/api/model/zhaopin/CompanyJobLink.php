@@ -17,9 +17,9 @@ class CompanyJobLink extends Model
     protected $name='company_job_link';
 
     public static function saveInfo($data){
-        if(!$data['id']){
+        if(!isset($data['id'])){
             //添加
-                self::allowField('true')->save($data);
+               model('zhaopin.CompanyJobLink')->allowField('true')->save($data);
         }else{
             //编辑
         }

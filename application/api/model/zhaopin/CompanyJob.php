@@ -17,10 +17,10 @@ class CompanyJob extends Model
     protected $name='company_job';
 
     public static function saveInfo($data){
-        if(!$data['id']){
+        if(!isset($data['id'])){
             //添加
             try {
-                self::allowField('true')->save($data);
+                model('zhaopin.CompanyJob')->allowField('true')->save($data);
                 $linkData=[
                     'uid'=>$data['uid'],
                     'jobid'=>self::getLastInsID(),
