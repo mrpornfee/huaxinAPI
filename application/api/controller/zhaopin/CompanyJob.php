@@ -11,6 +11,7 @@ namespace app\api\controller\zhaopin;
 
 use app\api\model\Token;
 use app\api\model\zhaopin\Company;
+use function PHPSTORM_META\type;
 use think\Controller;
 use think\facade\Request;
 use app\api\model\zhaopin\Member;
@@ -54,7 +55,7 @@ class CompanyJob extends  Controller
         if(is_array($res))$uid=$res['uid'];
         else return $res;
         $res=Company::getComInfo($uid);
-        if(is_array($res))$com_info=$res;
+        if(is_array($res))$com_info=$res['com_info'];
         else return $res;
         $data=[
             'uid'=>$uid,
