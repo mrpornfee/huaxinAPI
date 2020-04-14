@@ -15,7 +15,7 @@ class Company extends Model
     protected $name='company';
 
     public static function getComInfo(int $uid){
-        $res=self::where(['uid'=>$uid])->field('name as com_name,hy,pr,mun,provinceid as com_provinceid,logo as com_logo,r_status')->find()->toArray();
+        $res=self::where(['uid'=>$uid])->field('name as com_name,pr,mun,provinceid as com_provinceid,logo as com_logo,r_status,welfare')->find()->toArray();
         $rat=CompanyStatis::where(['uid'=>$uid])->field('rating')->find()['rating']?:0;
         if($res) {
             $res['rating']=$rat;

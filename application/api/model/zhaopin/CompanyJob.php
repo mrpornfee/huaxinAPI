@@ -7,7 +7,7 @@
  */
 
 namespace app\api\model\zhaopin;
-
+use think\Db;
 use think\Exception;
 use think\Model;
 class CompanyJob extends Model
@@ -19,11 +19,14 @@ class CompanyJob extends Model
     public static function saveInfo($data){
         if(!isset($data['id'])){
             //添加
+            Db::startTrans();
             try {
-                model('zhaopin.CompanyJob')->allowField('true')->save($data);
+                model('zhaopin.CompanyJob')->allowField(true)->create($data);
+                $jobid=model('zhaopin.CompanyJob')->getLastInsID();
+                if($jobid==0) throw new Exception("jobid can not be 0");
                 $linkData=[
                     'uid'=>$data['uid'],
-                    'jobid'=>self::getLastInsID(),
+                    'jobid'=>$jobid,
                     'link_man'=>$data['link_man'],
                     'link_mobile'=>$data['link_mobile'],
                     'email_type'=>$data['email_type'],
@@ -32,7 +35,9 @@ class CompanyJob extends Model
                     'link_type'=>$data['link_type']
                 ];
                 CompanyJobLink::saveInfo($linkData);
+                Db::commit();
             }catch (\Exception $e){
+                Db::rollback();
                 return myJson('1003',$e->getMessage());
             }
             return myJson('1','Publish message successfully.');
