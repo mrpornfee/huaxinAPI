@@ -46,4 +46,11 @@ class CompanyJob extends Model
         }
 
     }
+
+    public static function getList($uid,$limit){
+        if($limit==0)
+            $data=self::where(['uid'=>$uid])->field('id,name')->select();
+        else $data=self::where(['uid'=>$uid])->field('id,name')->limit($limit)->select();
+           return myJson('1','Its job has been listed',$data);
+    }
 }

@@ -24,4 +24,6 @@ class CompanyJobLink extends Model
             //编辑
         }
     }
+
+
 }

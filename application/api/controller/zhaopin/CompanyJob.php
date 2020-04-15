@@ -42,6 +42,11 @@ class CompanyJob extends  Controller
         else return 0;
     }
 
+    private function selfMobile($mobile){
+        if($mobile==self::$mobile) return 1;
+        else return 0;
+    }
+
     public function publishJob(){
         if(self::$result) return self::$result;
         $postData=initPostData();
@@ -83,6 +88,8 @@ class CompanyJob extends  Controller
             'marriage'=>isset($postData['marriage'])?$postData['marriage']:72,
             'cloudtype'=>isset($postData['cloudtype'])?$postData['cloudtype']:null,
             'statusbody'=>isset($postData['statusbody'])?$postData['statusbody']:null,
+            'x'=>isset($postData['x'])?$postData['x']:null,
+            'y'=>isset($postData['y'])?$postData['y']:null,
             'age'=>isset($postData['age'])?$postData['age']:88,
             'lang'=>isset($postData['lang'])?$postData['lang']:null,
             'is_graduate'=>isset($postData['is_graduate'])?$postData['is_graduate']:0,
@@ -96,6 +103,24 @@ class CompanyJob extends  Controller
         $data=array_merge($data,$com_info);
        $res=CompanyJobModel::saveInfo($data);
        return $res;
+    }
+
+    public function jobList(){
+        if(self::$result) return self::$result;
+        $mobile=input('mobile');
+        $limit=input('limit')?:0;
+        if($this->isAdmin()){
+            $res=Member::getUid($mobile);
+        }
+        else {
+            if($this->selfMobile($mobile))
+             $res=Member::getUid($mobile);
+            else return myJson('1004','wrong mobile number.');
+        }
+        if(is_array($res))$uid=$res['uid'];
+        else return $res;
+        $res=CompanyJobModel::getList($uid,$limit);
+        return $res;
     }
 
 }
