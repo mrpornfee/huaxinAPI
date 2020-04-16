@@ -43,6 +43,12 @@ class CompanyJob extends Model
             return myJson('1','Publish message successfully.');
         }else{
             //编辑
+            try{
+               model('zhaopin.CompanyJob')->allowField(true)->update($data);
+            }catch (\Exception $e){
+                return myJson('1003',$e->getMessage());
+            }
+            return myJson('1','Renew message successfully.');
         }
 
     }
@@ -76,5 +82,10 @@ class CompanyJob extends Model
           }
         if($a)return myJson('1','Successfully deleted');
         else return myJson('1008','Can not find Information of these ids');
+    }
+
+    public static function isExist($id){
+        if(self::where('id',$id)->find()) return 1;
+        else return 0;
     }
 }

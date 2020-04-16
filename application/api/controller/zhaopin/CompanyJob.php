@@ -162,5 +162,53 @@ class CompanyJob extends  Controller
         }
 
     }
-
+    //编辑职位
+    public function editJob(){
+        if(self::$result) return self::$result;
+        $postData=initPostData();
+        $id=$postData['id'];
+        if(!$this->isAdmin()) {
+           $mobile= CompanyJobModel::getMobileById($id);
+           if(!$this->selfMobile($mobile))
+               return myJson('1004','wrong mobile number.');
+        }
+        if(!CompanyJobModel::isExist($id))
+            return myJson('1008','the id of job is not exist');
+        $data=[
+            'id'=>$id,
+            'name'=>$postData['name'],
+            'job1'=>$postData['job1'],
+            'job1_son'=>$postData['job1_son'],
+            'job_post'=>$postData['job_post'],
+            'provinceid'=>$postData['provinceid'],
+            'cityid'=>$postData['cityid'],
+            'three_cityid'=>$postData['three_cityid'],
+            'description'=>$postData['description'],
+            'minsalary'=>$postData['minsalary'],
+            'maxsalary'=>$postData['maxsalary'],
+            'lastupdate'=>time(),
+            'hy'=>isset($postData['hy'])?$postData['hy']:842,
+            'number'=>isset($postData['number'])?$postData['number']:40,
+            'exp'=>isset($postData['exp'])?$postData['exp']:127,
+            'report'=>isset($postData['report'])?$postData['report']:54,
+            'sex'=>isset($postData['sex'])?$postData['sex']:3,
+            'edu'=>isset($postData['edu'])?$postData['edu']:65,
+            'marriage'=>isset($postData['marriage'])?$postData['marriage']:72,
+            'cloudtype'=>isset($postData['cloudtype'])?$postData['cloudtype']:null,
+            'statusbody'=>isset($postData['statusbody'])?$postData['statusbody']:null,
+            'x'=>isset($postData['x'])?$postData['x']:null,
+            'y'=>isset($postData['y'])?$postData['y']:null,
+            'age'=>isset($postData['age'])?$postData['age']:88,
+            'lang'=>isset($postData['lang'])?$postData['lang']:null,
+            'is_graduate'=>isset($postData['is_graduate'])?$postData['is_graduate']:0,
+         //   'link_man'=>isset($postData['link_man'])?$postData['link_man']:null,
+          //  'link_mobile'=>isset($postData['link_mobile'])?$postData['link_mobile']:null,
+          //  'email_type'=>(isset($postData['email_type'])&&$postData['email_type']!==null)?$postData['email_type']:1,
+          //  'is_email'=>(isset($postData['is_email'])&&$postData['is_email']!==null)?$postData['is_email']:1,
+          //  'email'=>(isset($postData['email'])&&$postData['email']!==null)?$postData['email']:null,
+          //  'link_type'=>(isset($postData['link_type'])&&$postData['link_type']!==null)?$postData['link_type']:1,
+        ];
+        $res=CompanyJobModel::saveInfo($data);
+        return $res;
+    }
 }
