@@ -22,7 +22,7 @@ function myJson($code,$msg=null,$data=null){
  * 获取 post 参数; 在 content_type 为 application/json 时，自动解析 json
  * @return array
  */
- function initPostData()
+function initPostData()
 {
     if (empty($_POST) && false !== strpos($_SERVER['CONTENT_TYPE'], 'application/json')) {
         $content = file_get_contents('php://input');
@@ -31,4 +31,26 @@ function myJson($code,$msg=null,$data=null){
         $post = $_POST;
     }
     return $post;
+}
+
+function initDeleteData()
+{
+    if (empty($_DELETE) && false !== strpos($_SERVER['CONTENT_TYPE'], 'application/json')) {
+        $content = file_get_contents('php://input');
+        $delete    = (array)json_decode($content, true);
+    } else {
+        $delete  = $_DELETE;
+    }
+    return $delete ;
+}
+
+function initPutData()
+{
+    if (empty($_PUT) && false !== strpos($_SERVER['CONTENT_TYPE'], 'application/json')) {
+        $content = file_get_contents('php://input');
+        $put    = (array)json_decode($content, true);
+    } else {
+        $put  = $_PUT;
+    }
+    return  $put ;
 }

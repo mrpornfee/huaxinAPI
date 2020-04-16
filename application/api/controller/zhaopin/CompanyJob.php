@@ -36,17 +36,17 @@ class CompanyJob extends  Controller
            self::$result=myJson('-1','Fail to varify your infomation.');
        }
     }
-
+    //判断是否拥有管理员权限
     private function isAdmin(){
         if(self::$type==0) return 1;
         else return 0;
     }
-
+    //判断是否为私人手机号
     private function selfMobile($mobile){
         if($mobile==self::$mobile) return 1;
         else return 0;
     }
-
+    //发布职位
     public function publishJob(){
         if(self::$result) return self::$result;
         $postData=initPostData();
@@ -104,7 +104,7 @@ class CompanyJob extends  Controller
        $res=CompanyJobModel::saveInfo($data);
        return $res;
     }
-
+    //获取职位列表
     public function jobList(){
         if(self::$result) return self::$result;
         $mobile=input('mobile');
@@ -119,8 +119,48 @@ class CompanyJob extends  Controller
         }
         if(is_array($res))$uid=$res['uid'];
         else return $res;
-        $res=CompanyJobModel::getList($uid,$limit);
-        return $res;
+        $data=CompanyJobModel::getList($uid,$limit);
+        return myJson('1','Its job has been listed',$data);
+    }
+    //删除职位
+    public function delJobs(){
+        if(self::$result) return self::$result;
+        $deleteId=initDeleteData()['id'];
+        if($this->isAdmin()){
+            $res=CompanyJobModel::delJobs($deleteId);
+            return $res;
+        }else{
+            $uid=Member::getUid(self::$mobile);
+            $arr=CompanyJobModel::getList($uid);
+            $idsArray=[];
+            for($i=0;$i<sizeof($arr);$i++){
+                array_push($idsArray,$arr[$i]['id']);
+            }
+            $deleteIdsArray=explode(',',$deleteId);
+            $result=array_diff($deleteIdsArray,$idsArray);
+            if($result) return myJson('1007','Incorrect given id');
+            $res=CompanyJobModel::delJobs($deleteId);
+            return $res;
+        }
+    }
+    //查询职位
+    public function searchJobInfo(){
+        if(self::$result) return self::$result;
+        $id=input('id');
+        $mobile=CompanyJobModel::getMobileById($id);
+        if(!$mobile) return myJson('1005','No information of the gotten id');
+        if($this->isAdmin()){
+            //无限制查询任何id的职位
+            $res=CompanyJobModel::getJobDetail($id);
+            return $res;
+        }
+        else {
+            if($this->selfMobile($mobile))
+               //查询id的职位
+                return CompanyJobModel::getJobDetail($id);
+            else return myJson('1004','wrong mobile number.');
+        }
+
     }
 
 }

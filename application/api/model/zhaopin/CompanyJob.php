@@ -47,10 +47,34 @@ class CompanyJob extends Model
 
     }
 
-    public static function getList($uid,$limit){
+    public static function getList($uid,$limit=0){
         if($limit==0)
             $data=self::where(['uid'=>$uid])->field('id,name')->select();
         else $data=self::where(['uid'=>$uid])->field('id,name')->limit($limit)->select();
-           return myJson('1','Its job has been listed',$data);
+           return $data;
+    }
+
+    //根据id获取手机号
+    public static function getMobileById($id){
+        $uid=self::where(['id'=>$id])->field('uid')->find()['uid']?:0;
+        $mobile=Member::where(['uid'=>$uid])->field('moblie')->find()['moblie'];
+        if($mobile) return $mobile;
+        else return 0;
+    }
+    //根据id获取职位详情
+    public static function getJobDetail($id){
+        $detail=self::where(['id'=>$id])->field('id,uid,name,com_name,hy,job1,job1_son,job_post,provinceid,cityid,three_cityid,description,minsalary,maxsalary,hy,number,exp,sex,report,marriage,edu,age,lang')->find();
+        return myJson('1','Here is the information of the id:',$detail);
+    }
+    //根据id删除职位
+    public static function delJobs($id){
+        $ids=','.$id.',';
+        try {
+            $a=self::whereIn('id', $ids)->delete();
+        }catch (\Exception $e){
+            return myJson('1006',$e);
+          }
+        if($a)return myJson('1','Successfully deleted');
+        else return myJson('1008','Can not find Information of these ids');
     }
 }
