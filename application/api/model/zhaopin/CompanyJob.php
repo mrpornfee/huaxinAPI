@@ -83,9 +83,29 @@ class CompanyJob extends Model
         if($a)return myJson('1','Successfully deleted');
         else return myJson('1008','Can not find Information of these ids');
     }
-
+    //判断id是否存在表中
     public static function isExist($id){
         if(self::where('id',$id)->find()) return 1;
         else return 0;
+    }
+    //判断id name 是否匹配
+    public static function validateIdName(array $data){
+       if(self::isExist($data['id'])) {
+           $name = self::where(['id' => $data['id']])->field('name')->find()['name'];
+           if ($name == $data['name']) return true;
+       }
+        else return myJson('1002','Incorrect id or name post');
+    }
+    //置顶职位
+    public static function toTop($id,$time){
+        $res=self::where('id',$id)->update(['xsdate'=>$time]);
+        if($res) return true;
+        else return myJson('1003','Top operation failed.');
+    }
+    //取消置顶
+    public static function topOff($id){
+        $res=self::where('id',$id)->update(['xsdate'=>0]);
+        if($res) return true;
+        else return myJson('1003','TopOff operation failed.');
     }
 }

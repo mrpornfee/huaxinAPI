@@ -211,4 +211,41 @@ class CompanyJob extends  Controller
         $res=CompanyJobModel::saveInfo($data);
         return $res;
     }
+    //置顶职位
+    public function toTop(){
+        if(self::$result) return self::$result;
+        $postData=initPostData();
+        $data=[
+            'id'=>$postData['id'],
+            'name'=>$postData['name'],
+        ];
+        $res=CompanyJobModel::validateIdName($data);
+        if($res!==true) return $res;
+        $time=intval($postData['xsdays'])*86400+time();
+        if($this->isAdmin()){
+            $res=CompanyJobModel::toTop($data['id'],$time);
+            if($res===true) return myJson('1','Top Successfully.');
+            else return $res;
+        }else{
+            return myJson('1001','No permission');
+        }
+    }
+    //取消置顶职位
+    public function topOff(){
+        if(self::$result) return self::$result;
+        $deleteData=initDeleteData();
+        $data=[
+            'id'=>$deleteData['id'],
+            'name'=>$deleteData['name'],
+        ];
+        $res=CompanyJobModel::validateIdName($data);
+        if($res!==true) return $res;
+        if($this->isAdmin()){
+            $res=CompanyJobModel::topOff($data['id']);
+            if($res===true) return myJson('1','TopOff Successfully.');
+            else return $res;
+        }else{
+            return myJson('1001','No permission');
+        }
+    }
 }
