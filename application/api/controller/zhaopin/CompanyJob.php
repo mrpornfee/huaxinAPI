@@ -214,14 +214,16 @@ class CompanyJob extends  Controller
     //置顶职位
     public function toTop(){
         if(self::$result) return self::$result;
-        $postData=initPostData();
+        $putData=initPutData();
+       if(!arrayVerify($putData,'id,name,xsdays'))
+           return myJson('1004','Unstandard parameters received');
         $data=[
-            'id'=>$postData['id'],
-            'name'=>$postData['name'],
+            'id'=>$putData['id'],
+            'name'=>$putData['name'],
         ];
         $res=CompanyJobModel::validateIdName($data);
         if($res!==true) return $res;
-        $time=intval($postData['xsdays'])*86400+time();
+        $time=intval($putData['xsdays'])*86400+time();
         if($this->isAdmin()){
             $res=CompanyJobModel::toTop($data['id'],$time);
             if($res===true) return myJson('1','Top Successfully.');
@@ -234,6 +236,8 @@ class CompanyJob extends  Controller
     public function topOff(){
         if(self::$result) return self::$result;
         $deleteData=initDeleteData();
+        if(!arrayVerify($deleteData,'id,name'))
+            return myJson('1004','Unstandard parameters received');
         $data=[
             'id'=>$deleteData['id'],
             'name'=>$deleteData['name'],
@@ -242,7 +246,108 @@ class CompanyJob extends  Controller
         if($res!==true) return $res;
         if($this->isAdmin()){
             $res=CompanyJobModel::topOff($data['id']);
-            if($res===true) return myJson('1','TopOff Successfully.');
+            if($res===true) return myJson('1','Top Off Successfully.');
+            else return $res;
+        }else{
+            return myJson('1001','No permission');
+        }
+    }
+    //推荐职位
+    public function recommend(){
+        if(self::$result) return self::$result;
+        $putData=initPutData();
+        if(!arrayVerify($putData,'id,name,rec_day'))
+            return myJson('1004','Unstandard parameters received');
+        $data=[
+            'id'=>$putData['id'],
+            'name'=>$putData['name'],
+        ];
+        $res=CompanyJobModel::validateIdName($data);
+        if($res!==true) return $res;
+        $time=intval($putData['rec_day'])*86400+time();
+        if($this->isAdmin()){
+            $res=CompanyJobModel::recommend($data['id'],$time);
+            if($res===true) return myJson('1','Recommend Successfully.');
+            else return $res;
+        }else{
+            return myJson('1001','No permission');
+        }
+    }
+    //取消推荐职位
+    public function recommendOff(){
+        if(self::$result) return self::$result;
+        $deleteData=initDeleteData();
+        if(!arrayVerify($deleteData,'id,name'))
+            return myJson('1004','Unstandard parameters received');
+        $data=[
+            'id'=>$deleteData['id'],
+            'name'=>$deleteData['name'],
+        ];
+        $res=CompanyJobModel::validateIdName($data);
+        if($res!==true) return $res;
+        if($this->isAdmin()){
+            $res=CompanyJobModel::recommendOff($data['id']);
+            if($res===true) return myJson('1','Recommend Off Successfully.');
+            else return $res;
+        }else{
+            return myJson('1001','No permission');
+        }
+    }
+    //紧急职位
+    public function urgent(){
+        if(self::$result) return self::$result;
+        $putData=initPutData();
+        if(!arrayVerify($putData,'id,name,urgent_day'))
+            return myJson('1004','Unstandard parameters received');
+        $data=[
+            'id'=>$putData['id'],
+            'name'=>$putData['name'],
+        ];
+        $res=CompanyJobModel::validateIdName($data);
+        if($res!==true) return $res;
+        $time=intval($putData['urgent_day'])*86400+time();
+        if($this->isAdmin()){
+            $res=CompanyJobModel::urgent($data['id'],$time);
+            if($res===true) return myJson('1','Urgent Successfully.');
+            else return $res;
+        }else{
+            return myJson('1001','No permission');
+        }
+    }
+    //取消紧急职位
+    public function urgentOff(){
+        if(self::$result) return self::$result;
+        $deleteData=initDeleteData();
+        if(!arrayVerify($deleteData,'id,name'))
+            return myJson('1004','Unstandard parameters received');
+        $data=[
+            'id'=>$deleteData['id'],
+            'name'=>$deleteData['name'],
+        ];
+        $res=CompanyJobModel::validateIdName($data);
+        if($res!==true) return $res;
+        if($this->isAdmin()){
+            $res=CompanyJobModel::urgentOff($data['id']);
+            if($res===true) return myJson('1','Urgent Off Successfully.');
+            else return $res;
+        }else{
+            return myJson('1001','No permission');
+        }
+    }
+
+    //改变职位状态
+    public function changeStatus(){
+        if(self::$result) return self::$result;
+        $putData=initPutData();
+        if(!arrayVerify($putData,'id,status'))
+            return myJson('1004','Unstandard parameters received');
+        $data=[
+            'id'=>$putData['id'],
+            'status'=>$putData['status'],
+        ];
+        if($this->isAdmin()){
+            $res=CompanyJobModel::changeStatus($data['id'],$data['status']);
+            if($res===true) return myJson('1','Change status in success');
             else return $res;
         }else{
             return myJson('1001','No permission');

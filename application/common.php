@@ -54,3 +54,12 @@ function initPutData()
     }
     return  $put ;
 }
+
+//数组验证
+function arrayVerify(array $arr,string $str){
+    $ak=array_keys($arr);
+    $arrTmp=explode(',',$str);
+    if(!array_diff($ak,$arrTmp)&&!array_diff($arrTmp,$ak))
+        return true;
+    else return false;
+}

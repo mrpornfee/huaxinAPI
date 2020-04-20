@@ -98,14 +98,52 @@ class CompanyJob extends Model
     }
     //置顶职位
     public static function toTop($id,$time){
+        if(!self::isExist($id)) return myJson('1004','Wrong id.');
         $res=self::where('id',$id)->update(['xsdate'=>$time]);
         if($res) return true;
         else return myJson('1003','Top operation failed.');
     }
     //取消置顶
     public static function topOff($id){
+        if(!self::isExist($id)) return myJson('1004','Wrong id.');
         $res=self::where('id',$id)->update(['xsdate'=>0]);
         if($res) return true;
-        else return myJson('1003','TopOff operation failed.');
+        else return myJson('1003','Top Off operation failed.');
+    }
+    //推荐职位
+    public static function recommend($id,$time){
+        if(!self::isExist($id)) return myJson('1004','Wrong id.');
+        $res=self::where('id',$id)->update(['rec_time'=>$time,'rec'=>1]);
+        if($res) return true;
+        else return myJson('1003','Recommend operation failed.');
+    }
+    //取消推荐
+    public static function recommendOff($id){
+        if(!self::isExist($id)) return myJson('1004','Wrong id.');
+        $res=self::where('id',$id)->update(['rec_time'=>0,'rec'=>0]);
+        if($res) return true;
+        else return myJson('1003','Recommend Off operation failed.');
+    }
+    //紧急职位
+    public static function urgent($id,$time){
+        if(!self::isExist($id)) return myJson('1004','Wrong id.');
+        $res=self::where('id',$id)->update(['urgent_time'=>$time,'urgent'=>1]);
+        if($res) return true;
+        else return myJson('1003','Urgent operation failed.');
+    }
+    //取消紧急
+    public static function urgentOff($id){
+        if(!self::isExist($id)) return myJson('1004','Wrong id.');
+        $res=self::where('id',$id)->update(['urgent'=>0,'urgent_time'=>0]);
+        if($res) return true;
+        else return myJson('1003','Urgent Off operation failed.');
+    }
+    //改变职位状态
+    public static function changeStatus($id,$status){
+        if($status!=1&&$status!=0) return myJson('1003','Wrong Status.');
+        if(!self::isExist($id)) return myJson('1004','Wrong id.');
+        $res=self::where('id',$id)->update(['status'=>$status]);
+        if($res) return true;
+        else return myJson('1002','Change status in failure');
     }
 }
