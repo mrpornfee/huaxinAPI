@@ -11,3 +11,4 @@ Route::delete('api/zhaopin/recommend_off_job','api/zhaopin.company_job/recommend
 Route::put('api/zhaopin/urgent_job','api/zhaopin.company_job/urgent');
 Route::delete('api/zhaopin/urgent_off_job','api/zhaopin.company_job/urgentOff');
 Route::put('api/zhaopin/ch_st','api/zhaopin.company_job/changeStatus');
+Route::get('api/zhaopin/job_class/:jobClass/[:id]','api/zhaopin.company_job/selectJob');
