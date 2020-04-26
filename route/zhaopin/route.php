@@ -12,5 +12,5 @@ Route::put('api/zhaopin/urgent_job','api/zhaopin.company_job/urgent');
 Route::delete('api/zhaopin/urgent_off_job','api/zhaopin.company_job/urgentOff');
 Route::put('api/zhaopin/ch_st','api/zhaopin.company_job/changeStatus');
 
-Route::get('api/zhaopin/job_class/:jobClass/[:id]','api/zhaopin.select_info/selectJob');
-Route::get('api/zhaopin/job_class/:desClass/[:id]','api/zhaopin.select_info/selectDes');
+Route::get('api/zhaopin/job_class/:job_class/[:id]','api/zhaopin.select_info/selectJob');
+Route::get('api/zhaopin/des_class/:des_class/[:id]','api/zhaopin.select_info/selectDes');

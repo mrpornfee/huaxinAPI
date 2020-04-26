@@ -13,7 +13,7 @@ class SelectInfo
 {
     //查询职位分类
     public function selectJob(){
-        $jobClass=input('jobClass');
+        $jobClass=input('job_class');
         if($jobClass==="1"){
             $id=input('id');
             if(!$id||$id<=0) return myJson('1005','Invalid parameter id.');
@@ -29,7 +29,7 @@ class SelectInfo
 
     //查询地域
     public function selectDes(){
-        $desClass=input('desClass');
+        $desClass=input('des_class');
         if($desClass==="1"){
             $id=input('id');
             if(!$id||$id<=0) return myJson('1005','Invalid parameter id.');

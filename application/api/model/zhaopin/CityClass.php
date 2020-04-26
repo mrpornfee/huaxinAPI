@@ -20,7 +20,7 @@ class CityClass extends  Model
     }
 
     public static function getNextDes($id){
-        $res=self::where(['key_id'=>$id,'display'=>1])->field('id,name')->order('sort asc')->select();
+        $res=self::where(['keyid'=>$id,'display'=>1])->field('id,name')->order('sort asc')->select();
         return myJson('1','success',$res);
     }
 }
