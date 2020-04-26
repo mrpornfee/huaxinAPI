@@ -353,21 +353,6 @@ class CompanyJob extends  Controller
             return myJson('1001','No permission');
         }
     }
-    //查询职位分类
-    public function selectJob(){
-        if(self::$result) return self::$result;
-        $jobClass=input('jobClass');
-        if($jobClass==="1"){
-            $id=input('id');
-            if(!$id||$id<=0) return myJson('1005','Invalid parameter id.');
-            $res=JobClass::selectChildJobs($id);
-            return $res;
-        }
-        if($jobClass==="0"){
-            $res=JobClass::selectJob_0_1();
-            return $res;
-        }
-        return myJson('1001','Invalid parameter jobClass.');
-    }
+
 
 }
