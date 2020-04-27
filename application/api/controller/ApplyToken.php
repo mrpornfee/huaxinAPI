@@ -22,8 +22,8 @@ class ApplyToken extends Controller
            $postData=initPostData();
            $n=$postData['number'];
            $k=$postData['key'];
-           $t=$postData['type']?:-1;
-           if($t!=-1&&$t!=0&&$t!=1&&$t!=2&&$t!=3&&$t!=4&&$t!=5)
+           $t=$postData['type'];
+           if($t!=0&&$t!=1&&$t!=2&&$t!=3&&$t!=4&&$t!=5)
                return myJson('5','参数type错误');
            if($k!=require dirname(dirname(dirname(__DIR__))).'/public/superman.php')return myJson('4','汝缺少诚意。');
                if($n<=200&&$n>=1) {
