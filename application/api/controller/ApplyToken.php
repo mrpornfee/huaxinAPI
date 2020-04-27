@@ -43,7 +43,7 @@ class ApplyToken extends Controller
            $postData=initPostData();
             $t=$postData['type'];
             $k=$postData['key'];
-             if($t!==0&&$t!==1&&$t!==2&&$t!==3&&$t!==4&&$t!==5)
+             if($t!=="0"&&$t!=="1"&&$t!=="2"&&$t!=="3"&&$t!=="4"&&$t!=="5")
                  return myJson('2','type格式错误');
              if($k!=require dirname(dirname(dirname(__DIR__))).'/public/superman.php')
                  return myJson('3','汝缺少诚意。');
