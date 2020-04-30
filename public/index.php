@@ -16,7 +16,7 @@ namespace think;
 require __DIR__ . '/../thinkphp/base.php';
 
 // 支持事先使用静态方法设置Request对象和Config对象
-$origin=$_SERVER['origin'];
+$origin=$_SERVER['REMOTE_ADDR'];
 header("Access-Control-Allow-Origin: $origin");
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Methods:GET, POST, OPTIONS, DELETE");
