@@ -14,3 +14,4 @@ Route::put('api/zhaopin/ch_st','api/zhaopin.company_job/changeStatus');
 
 Route::get('api/zhaopin/job_class/:job_class/[:id]','api/zhaopin.select_info/selectJob');
 Route::get('api/zhaopin/des_class/:des_class/[:id]','api/zhaopin.select_info/selectDes');
+Route::get('api/zhaopin/com_class/:variable','api/zhaopin.select_info/selectComClass');

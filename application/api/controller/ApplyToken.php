@@ -11,7 +11,7 @@ namespace app\api\controller;
 use app\api\model\SecretKey;
 use app\api\model\Token;
 use think\Controller;
-
+use think\Request;
 
 class ApplyToken extends Controller
 {
@@ -77,5 +77,9 @@ class ApplyToken extends Controller
            ];
            $res=Token::findToken($data);
            return $res;
+       }
+
+       public function test(Request $request){
+           var_dump($request);
        }
 }

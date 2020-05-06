@@ -7,8 +7,11 @@
  */
 
 namespace app\api\controller\zhaopin;
+use app\api\model\zhaopin\ComClass;
 use app\api\model\zhaopin\JobClass;
 use app\api\model\zhaopin\CityClass;
+use think\Request;
+
 class SelectInfo
 {
     //查询职位分类
@@ -41,5 +44,12 @@ class SelectInfo
             return $res;
         }
         return myJson('1001','Invalid parameter desClass.');
+    }
+
+    //comClass查询
+    public function selectComClass(Request $request){
+        $variable=$request->param('variable');
+        $res=ComClass::getNames($variable);
+        return $res;
     }
 }
