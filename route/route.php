@@ -9,7 +9,7 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 require_once __DIR__.'/zhaopin/route.php';
-
+require_once __DIR__.'/common/common.php';
 Route::post('api/make_token','api/apply_token/makeToken');
 Route::post('api/get_token','api/apply_token/getToken');
 Route::post('api/make_secret_key','api/apply_token/makeSecretKey');
