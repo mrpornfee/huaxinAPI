@@ -64,46 +64,55 @@ function arrayVerify(array $arr,string $str){
     else return false;
 }
 
-if(!function_exists('curl_request')){
+if(!function_exists('curl_request')) {
     /**
-     *@param $url 请求的地址
-     *@param $pos请求的方式
-     *@param $params请求的参数
-     *@param $https是否验证http证书  默认不验证http证书
+     * @param $url 请求的地址
+     * @param $pos请求的方式
+     * @param $params请求的参数
+     * @param $https是否验证http证书  默认不验证http证书
      */
-    function curl_request($url,$post=false,$params=[],$https=false,$header = null){
-       $headerMode=[
-           'Content-Type'=>'application/json;charset=uft-8',
-           'Accept'=>'application/json;charset=utf-8',
-           'Content-Length'=>strlen(json_encode($params))
-       ];
-        if(!empty($header)) $headerMode=array_merge($headerMode,$header);
+    function curl_request($url, $post = false, $params = [], $https = false, $header = null)
+    {
+        $headerMode = [
+            'Content-Type' => 'application/json;charset=uft-8',
+            'Accept' => 'application/json;charset=utf-8',
+            'Content-Length' => strlen(json_encode($params))
+        ];
+        if (!empty($header)) $headerMode = array_merge($headerMode, $header);
         #初始化请求的参数
-        $curl=curl_init();
+        $curl = curl_init();
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headerMode);
         curl_setopt($curl, CURLOPT_HEADER, 0);//返回response头部信息
         curl_setopt($curl, CURLOPT_URL, $url);
         #设置请求选项
-        if($post){
+        if ($post) {
             #设置发送post请求
-            curl_setopt($curl,CURLOPT_POST,true);
+            curl_setopt($curl, CURLOPT_POST, true);
             #设置post请求的参数
-            curl_setopt($curl,CURLOPT_POSTFIELDS,json_encode($params));
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($params));
         }
         #是否https协议的验证
-        if($https){
+        if ($https) {
             #禁止从服务器验证客户端本地的数据
-            curl_setopt($curl,CURLOPT_SSL_VERIFYPEER,false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         }
         #发送请求
-        curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-        $res=curl_exec($curl);
-        if($res===false){
-            $msg=curl_error($curl);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($curl);
+        if ($res === false) {
+            $msg = curl_error($curl);
             return $msg;
         }
         #关闭请求
         curl_close($curl);
         return $res;
     }
+}
+//签名
+ function sign($url)
+{
+    str_replace("+","%20",$url);
+    str_replace("*","%2A",$url);
+    str_replace("%7E","~",$url);
+    return $url;
 }
