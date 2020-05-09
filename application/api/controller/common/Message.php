@@ -20,7 +20,7 @@ class Message extends Controller
         $ip = $request->server('REMOTE_ADDR');
         $time = $request->server('REQUEST_TIME_FLOAT');
         $client_time = $request->param('client_time');
-        //  if($client_time+3<$time) return myJson('-1','time out.');
+        if($client_time+3<$time) return myJson('-1','time out.');
         $token = md5($ip . $time);
         session('ip', $ip, $this->session_prefix);
         session('client_time', $client_time, $this->session_prefix);
