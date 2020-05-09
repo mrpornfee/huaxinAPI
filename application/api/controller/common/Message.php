@@ -50,16 +50,29 @@ class Message extends Controller
         $message_config['TemplateParam'] =json_encode($arr);
         return http_build_query($message_config);
     }
+
+    private function getVisits(){
+        $visits = Session::get('MESSAGE.visits')?:0;
+        return $visits;
+    }
+
+    private function addVisits($n){
+        Session::set('MESSAGE.visits',$n);
+    }
+
     //发送短信
     public function sendMessage(Request $request)
     {
         $token = $request->param('token');
         $res = $this->checkSession($token);
         if (!$res) return myJson('-2', 'You have no access to post Information');
+        $visits=$this->getVisits();
+        if($visits>15) return myJson('-4','No allow to  post information more than 15 times  daily');
         $res2 = $this->initMessageParam($request);
         if ($res2 == -1) return myJson('-3', 'Wrong! TemplateCode is neccessary.');
         $url=$this->Endpoint.'/?'.$res2;
         $res=curl_request($url);
+        $this->addVisits($visits+1);
         return myJson('1',"Visit $this->Endpoint successfully.",$res);
     }
 }
