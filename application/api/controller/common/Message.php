@@ -39,7 +39,8 @@ class Message extends Controller
     private function initMessageParam($request)
     {
         $message_config = Config::get('message.');
-        if (!$request->param('TemplateCode')) return -1;
+        if (!$request->param('TemplateCode')||!$request->param('PhoneNumbers')) return -1;
+        $message_config['PhoneNumbers']=$request->param('PhoneNumbers');
         $message_config['TemplateCode'] = $request->param('TemplateCode');
         $arr = ['name' => $request->param('name'),
             'frommobile' => $request->param('frommobile'),
@@ -69,7 +70,7 @@ class Message extends Controller
         $visits=$this->getVisits();
         if($visits>15) return myJson('-4','No allow to  post information more than 15 times  one hour');
         $res2 = $this->initMessageParam($request);
-        if ($res2 == -1) return myJson('-3', 'Wrong! TemplateCode is neccessary.');
+        if ($res2 == -1) return myJson('-3', 'Wrong params post.');
         $url=$this->Endpoint.'/?'.$res2;
         $res=curl_request($url);
         $this->addVisits($visits+1);
