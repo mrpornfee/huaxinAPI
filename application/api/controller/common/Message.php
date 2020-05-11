@@ -41,7 +41,7 @@ class Message extends Controller
     //初始化短信参数
     private function initMessageParam($request)
     {
-       AlibabaCloud::accessKeyClient(Config::get('message.AccessKeyId'),Config::get('message.AccessKeySecret'))
+       AlibabaCloud::accessKeyClient(Config::get('message.AccessKeyId'),decode(Config::get('message.AccessKeySecret'),Config::get('message.decodeKey')))
            ->regionId(Config::get('message.RegionId'))->asDefaultClient();
        try{
            $result=AlibabaCloud::rpc()

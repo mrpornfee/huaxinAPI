@@ -13,7 +13,9 @@ return [
     /*主账号AccessKey的ID。*/
     'AccessKeyId' => 'LTAI4G2EGhJLgkscxia96vR8',
 
-    'AccessKeySecret'=>'jq7aSo9B70it92Tdxmpsy8M0A2hr3z',
+    'AccessKeySecret'=>'asnuEl3iYfVeNrvOUI3MGl0OTJUZHhtcHN5OE0wQTJocjN6',
+
+    "decodeKey"=>"sulifer",
 
     "Product"=>"Dysmsapi",
 
