@@ -88,6 +88,7 @@ class Message extends Controller
     //发送短信
     public function sendMessage(Request $request)
     {
+        return json_encode($request->param());
         $token = $request->param('token');
         $res = $this->checkSession($token);
         if (!$res) return myJson('-2', 'You have no access to post Information');
