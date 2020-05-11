@@ -2,8 +2,11 @@
 
 
 namespace app\api\controller\common;
+require ROOT_PATH."vendor".DS."autoload.php";
 
-
+use AlibabaCloud\Client\AlibabaCloud;
+use AlibabaCloud\Client\Exception\ClientException;
+use AlibabaCloud\Client\Exception\ServerException;
 use think\Controller;
 use think\facade\Config;
 use think\facade\Session;
@@ -12,12 +15,6 @@ use think\Request;
 class Message extends Controller
 {
     private $session_prefix = 'MESSAGE';
-
-    private $Endpoint = 'dysmsapi.aliyuncs.com';
-
-    private $SignatureNonce;
-
-    private $Timestamp;
 
     //制作Token
     public function makeToken(Request $request)
@@ -44,27 +41,37 @@ class Message extends Controller
     //初始化短信参数
     private function initMessageParam($request)
     {
-        $Signature=$this->makeSignature($request);
-        $message_config['AccessKeyId'] = Config::get('message.AccessKeyId');
-        $message_config['SignatureMethod'] = Config::get('message.SignatureMethod');
-        $message_config['SignatureNonce'] =  $this->SignatureNonce;
-        $message_config['SignatureVersion'] = Config::get('message.SignatureVersion');
-        $message_config['SignName'] = Config::get('message.SignName');
-        $message_config['Action'] = Config::get('message.Action');
-        $message_config['Timestamp']=$this->Timestamp;
-        $message_config['Version'] = Config::get('message.Version');
-        $message_config['RegionId'] = Config::get('message.RegionId');
-        $message_config['Format'] = Config::get('message.Format');
-        $message_config['PhoneNumbers'] = $request->param('PhoneNumbers');
-        $message_config['TemplateCode'] = $request->param('TemplateCode');
-        $arr = ['name' => $request->param('name'),'frommobile' => $request->param('frommobile'), 'product' => $request->param('product'),'company' => $request->param('company'),'fromemail' => $request->param('fromemail')];
-        $message_config['TemplateParam'] = json_encode($arr);
-        ksort($message_config);
-        $query="";
-        foreach ($message_config as $k => $v){
-            $query.="$k=".urlencode($v)."&";
-        }
-        return $query."Signature=$Signature";
+       AlibabaCloud::accessKeyClient(Config::get('message.AccessKeyId'),Config::get('message.AccessKeySecret'))
+           ->regionId(Config::get('message.RegionId'))->asDefaultClient();
+       try{
+           $result=AlibabaCloud::rpc()
+               ->product(Config::get('message.Product'))
+               ->version(Config::get('message.Version'))
+               ->action(Config::get('message.Action'))
+               ->method("POST")
+               ->host(Config::get('message.Host'))
+               ->options([
+                   "query"=>[
+                       "ReginId"=>Config::get('message.RegionId'),
+                       'PhoneNumbers' => $request->param("PhoneNumbers"),
+                       "SignName"=>Config::get('message.SignName'),
+                       "TemplateCode"=>$request->param("TemplateCode"),
+                       "TemplateParam"=>json_encode([
+                           "name"=>$request->param("name"),
+                           "frommobile"=>$request->param("frommobile"),
+                           "product"=>$request->param("product"),
+                           "company"=>$request->param("company"),
+                           "fromemail"=>$request->param("fromemail")
+                       ])
+                   ],
+               ])
+               ->request();
+           return $result->toArray();
+       } catch (ClientException $e) {
+           return $e->getErrorMessage();
+       } catch (ServerException $e) {
+           return $e->getErrorMessage();
+       }
     }
 
     private function getVisits()
@@ -87,39 +94,9 @@ class Message extends Controller
         $visits = $this->getVisits();
         if ($visits > 15) return myJson('-4', 'No allow to  post information more than 15 times  one hour');
         $res2 = $this->initMessageParam($request);
-        $url = $this->Endpoint . '/?' .$res2;
-        $res = curl_request($url);
         $this->addVisits($visits + 1);
-        return $res;
+        return myJson('1','Access to visit aliyun server.',$res2);
     }
 
-    //请求签名
-    private function makeSignature( $request)
-    {
-        $arr['SignatureMethod'] = Config::get('message.SignatureMethod');
-        $arr['SignatureNonce'] = Config::get('message.SignatureNonce');
-        $this->SignatureNonce=$arr['SignatureNonce'];
-        $arr['AccessKeyId'] = Config::get('message.AccessKeyId');
-        $arr['SignatureVersion'] = Config::get('message.SignatureVersion');
-        $arr['Timestamp']=Config::get('message.Timestamp');
-        $this->Timestamp=$arr['Timestamp'];
-        $arr['Format'] = Config::get('message.Format');
-        $arr['Action'] = Config::get('message.Action');
-        $arr['Version'] = Config::get('message.Version');
-        $arr['RegionId'] = Config::get('message.RegionId');
-        $arr['PhoneNumbers'] = $request->param('PhoneNumbers');
-        $arr['SignName'] = Config::get('SignName');
-        $arr['TemplateParam'] = json_encode(['name' => $request->param('name'),'frommobile' => $request->param('frommobile'), 'product' => $request->param('product'), 'company' => $request->param('company'), 'fromemail' => $request->param('fromemail')]);
-        $arr['TemplateCode'] = $request->param('TemplateCode');
-        ksort($arr);
-        $arr_query='';
-        foreach ($arr as $k =>$v){
-            $arr_query.="$k=".urlencode($v)."&";
-        }
-        $arr_query=substr($arr_query,0,-1);
-        $arr_query="GET&".sign(urlencode("/"))."&".sign(urlencode($arr_query));
-        $sign=base64_encode(hash_hmac('sha1',$arr_query,Config::get('message.AccessKeySecret').'&',true));
-        return sign(urlencode($sign));
-    }
 
 }

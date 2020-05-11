@@ -15,6 +15,8 @@ namespace think;
 // 加载基础文件
 require __DIR__ . '/../thinkphp/base.php';
 
+define("DS",DIRECTORY_SEPARATOR);
+define("ROOT_PATH",dirname(__DIR__).DS);
 // 支持事先使用静态方法设置Request对象和Config对象
 $origin=$_SERVER['REMOTE_ADDR'];
 header("Access-Control-Allow-Origin: $origin");
