@@ -92,7 +92,7 @@ class Message extends Controller
         $res = $this->checkSession($token);
         if (!$res) return myJson('-2', 'You have no access to post Information');
         $visits = $this->getVisits();
-        if ($visits > Config::get("message.MaxSend")) return myJson('-4', 'No allow to  post information more than 15 times  one hour');
+        if ($visits > Config::get("message.MaxSend")) return myJson('-4', "No allow to  post information more than".Config::get("message.MaxSend")."times  one hour");
         $res2 = $this->initMessageParam($request);
         $this->addVisits($visits + 1);
         return myJson('1','Access to visit aliyun server.',$res2);
